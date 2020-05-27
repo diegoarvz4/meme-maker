@@ -4,6 +4,7 @@ import './App.css';
 function App() {
 
   const refSVG = useRef(null);
+  const [memes, setMemes] = useState([]);
   const [base64IMG, setBase64IMG] = useState(null);
   const [widthIMG, setWidthIMG] = useState(null);
   const [heightIMG, setHeightIMG] = useState(null);
@@ -16,8 +17,8 @@ function App() {
       .then(res => res.json())
       .then(res => {
         const memes = res.data.memes;
+        setMemes(memes);
         const index = Math.floor(Math.random() * memes.length);
-        console.log(res.data.memes[index])
         getBase64Image(res.data.memes[index].url);
       })
       .catch(error => console.log(error))
@@ -26,10 +27,14 @@ function App() {
   useEffect(() => {
     const base_image = new Image();
     base_image.src = base64IMG;
-    var wrh = base_image.width / base_image.height;
     setWidthIMG(base_image.width);
     setHeightIMG(base_image.height);
   }, [base64IMG]);
+
+  const takeAnother = () => {
+    const index = Math.floor(Math.random() * memes.length);
+    getBase64Image(memes[index].url);
+  }
 
 
   const convertSvgToImage = () => {
@@ -71,6 +76,13 @@ function App() {
 
   return (
     <div className="App">
+      <div className="InputsContainer">
+        <input value={topText} onChange={(e) => setTopText(e.target.value)} />
+        <input value={bottomText} onChange={(e) => setBottomText(e.target.value)} />
+        <button onClick={() => convertSvgToImage()} >Download Meme</button>
+        <button onClick={takeAnother} >Take another (Randomly)</button>
+
+      </div>
       <svg
         width={widthIMG}
         height={heightIMG}
@@ -122,9 +134,6 @@ function App() {
           {bottomText}
         </text>
       </svg>
-      <button onClick={() => convertSvgToImage()} className="btn btn-primary">Download Meme!</button>
-      <input value={topText} onChange={(e) => setTopText(e.target.value)} />
-      <input value={bottomText} onChange={(e) => setBottomText(e.target.value)} />
     </div >
 
   );

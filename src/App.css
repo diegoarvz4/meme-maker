@@ -14,9 +14,24 @@ body {
 
 svg {
   margin: 0 auto;
-
 }
 
 img {
   width: 100px;
+}
+
+button, input {
+  padding: 10px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white
 }
